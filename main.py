@@ -13,7 +13,10 @@ def main():
     display.fill(BACKGROUND_COLOR)
 
     pygame.display.set_caption("VISI301")   # Nom de la fenêtre, à changer à la fin TODO
-    create_world(display, NB_COL, NB_ROW, GAP)
+
+    # Création du monde
+    world = World(display, NB_COL, NB_ROW, GAP)
+    world.draw()
 
     ### Boucle principale ###
     while True:
@@ -29,9 +32,8 @@ def main():
             if event.type == QUIT:
                 pygame.quit()
                 sys.exit()
-            pygame.display.update()
 
-        pygame.display.flip()
+            pygame.display.update()
 
     # On quitte pygame
     pygame.quit()
