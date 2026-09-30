@@ -16,7 +16,7 @@ class World:
     def draw(self):
         """Dessine les tuiles du monde"""
         for pos in self.pos_list:
-            tile = Tile(pos["x"] - self.tile_width // 2, pos["y"] - self.tile_height // 2, self.tile_width, self.tile_height, "green", self.display)
+            tile = Tile(pos["x"], pos["y"], self.tile_width, self.tile_height, "green", self.display)
             tile.draw()
 
 
@@ -128,6 +128,7 @@ class World:
 
 
     def position_of_even_columns(self, nb_row: int, x: int) -> list:
+        """Renvoie la position des tuiles dans une colonne au nombre de tuiles pair"""
         res = []
 
         # Tuiles du bas
