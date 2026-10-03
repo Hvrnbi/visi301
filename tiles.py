@@ -14,7 +14,11 @@ class Tile:
 
     def draw(self):
         """Affiche la tuile"""
-        image = pygame.transform.scale(HEXA, (self.width, self.height))
+        if self.tiletype == "seed" :
+            image = pygame.transform.scale(SEED, (self.width, self.height))
+        else :
+            image = pygame.transform.scale(HEXA, (self.width, self.height))
         self.display.blit(image, (self.x - self.width // 2, self.y - self.height // 2))
+
         
         

@@ -15,6 +15,14 @@ GAP = 8
 
 # images
 HEXA = image.load(path.join("images/hexa.png"))
+SEED = image.load(path.join("images/seed.png"))
+
+PLAYER = image.load(path.join("images/player.png"))
+
+NEST = image.load(path.join("images/nest.png"))
+
+# tuile de base pour le personnage
+ORIGIN = 0
 
 # couleurs
 BACKGROUND_COLOR = (24, 40, 69)

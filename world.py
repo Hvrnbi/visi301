@@ -1,5 +1,6 @@
 from tiles import *
 from variables import *
+from random import randint
 
 
 class World:
@@ -16,9 +17,15 @@ class World:
     def draw(self):
         """Dessine les tuiles du monde"""
         for pos in self.pos_list:
-            tile = Tile(pos["x"], pos["y"], self.tile_width, self.tile_height, "green", self.display)
+            tile = Tile(pos["x"], pos["y"], self.tile_width, self.tile_height, self.tile_type(), self.display)
             tile.draw()
 
+
+    def tile_type(self) -> str:
+        """Renvoie une chaine de caractère contenant 'green' ou 'seed' avec une probabilité respective de 80% et 20%"""
+        t_type = ["green", "green", "green", "green", "seed"]
+        return t_type[randint(0, 4)]
+            
 
     def tile_size(self) -> tuple:
         """Renvoie un tuple contenant la largeur et la hauteur d'une tuile en fonction du nombre de lignes, de colonnes, et de l'espacement entre le tuiles"""

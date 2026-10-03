@@ -2,6 +2,9 @@ import pygame, sys
 from pygame.locals import * # Import des constantes de pygame
 from world import *
 from variables import *
+from player import *
+from nest import *
+
 
 def main():
     """La fonction pricipale"""
@@ -17,6 +20,12 @@ def main():
     # Création du monde
     world = World(display, NB_COL, NB_ROW, GAP)
     world.draw()
+
+    player = Player(0, 0, display)
+    player.draw(world.pos_list[1])              #Le choix de la tuile a été arbitraire
+
+    nest = Nest(0, display)
+    nest.draw(world.pos_list[0], 0)
 
     ### Boucle principale ###
     while True:
