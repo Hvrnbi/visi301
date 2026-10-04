@@ -1,6 +1,6 @@
 from tiles import *
 from variables import *
-from random import randint
+from random import choice
 
 
 class World:
@@ -12,20 +12,35 @@ class World:
         self.gap = gap
         self.tile_width, self.tile_height = self.tile_size()
         self.pos_list = self.position_of_tiles((WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2))
+        self.tiles_list = self.create_tiles()
+        self.left_border = min([tile["x"] for tile in self.pos_list])
+        self.right_border = max([tile["x"] for tile in self.pos_list])
+        self.top_border = min([tile["y"] for tile in self.pos_list])
+        self.bottom_border = max([tile["y"] for tile in self.pos_list])
 
     
     def draw(self):
         """Dessine les tuiles du monde"""
-        for pos in self.pos_list:
-            tile = Tile(pos["x"], pos["y"], self.tile_width, self.tile_height, self.tile_type(), self.display)
+        for tile in self.tiles_list:
             tile.draw()
 
 
-    def tile_type(self) -> str:
+    def random_tile_type(self) -> str:
         """Renvoie une chaine de caractère contenant 'green' ou 'seed' avec une probabilité respective de 80% et 20%"""
-        t_type = ["green", "green", "green", "green", "seed"]
-        return t_type[randint(0, 4)]
-            
+        t_type = ["green"] * 4 + ["seed"]
+        return choice(t_type)
+
+    
+    def create_tiles(self):
+        """Renvoie une liste avec toutes les tuiles du monde, générées en partie aléatoirement"""
+        res = []
+        # Tuile centrale
+        res.append(Tile(self.pos_list[0]["x"], self.pos_list[0]["y"], self.tile_width, self.tile_height, "green", self.display))
+        # Toutes les autres
+        for pos in self.pos_list[1:]:
+            res.append(Tile(pos["x"], pos["y"], self.tile_width, self.tile_height, self.random_tile_type(), self.display))
+        return res
+
 
     def tile_size(self) -> tuple:
         """Renvoie un tuple contenant la largeur et la hauteur d'une tuile en fonction du nombre de lignes, de colonnes, et de l'espacement entre le tuiles"""

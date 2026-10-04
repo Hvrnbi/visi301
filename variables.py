@@ -5,6 +5,9 @@ from os import path
 WINDOW_WIDTH = 1920
 WINDOW_HEIGHT = 1080
 
+# Nombre d'images par secondes
+FPS = 60
+
 # Nombre de colonnes et de lignes sur la map
 NB_COL = 17
 NB_ROW = 12

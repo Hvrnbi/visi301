@@ -1,6 +1,6 @@
 import pygame, sys
 from pygame.locals import * # Import des constantes de pygame
-from world import *
+from world import World
 from variables import *
 from player import *
 from nest import *
@@ -17,21 +17,23 @@ def main():
 
     pygame.display.set_caption("VISI301")   # Nom de la fenêtre, à changer à la fin TODO
 
+    # Horloge du jeu
+    clock = pygame.time.Clock()
+
     # Création du monde
     world = World(display, NB_COL, NB_ROW, GAP)
-    world.draw()
 
-    player = Player(0, 0, display)
-    player.draw(world.pos_list[1])              #Le choix de la tuile a été arbitraire
+    player = Player(0, 0, world, display)
 
     nest = Nest(0, display)
-    nest.draw(world.pos_list[0], 0)
 
     ### Boucle principale ###
     while True:
         
         # À chaque tick on fait ce qu'il y a là
-        # create_world(display, NB_COL, NB_ROW, GAP)
+        world.draw()
+        player.draw(world.pos_list[1])  # On commence sur la tuile en dessous du nid
+        nest.draw(world.pos_list[0], 0)
 
         for event in pygame.event.get():
 
@@ -42,7 +44,9 @@ def main():
                 pygame.quit()
                 sys.exit()
 
-            pygame.display.update()
+        pygame.display.update()
+        clock.tick(FPS)
+
 
     # On quitte pygame
     pygame.quit()
