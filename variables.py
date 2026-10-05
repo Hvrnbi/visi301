@@ -20,7 +20,10 @@ GAP = 8
 HEXA = image.load(path.join("images/hexa.png"))
 SEED = image.load(path.join("images/seed.png"))
 
-PLAYER = image.load(path.join("images/player.png"))
+PLAYER_RU = image.load(path.join("images/player-ru.png"))
+PLAYER_RD = image.load(path.join("images/player-rd.png"))
+PLAYER_LU = image.load(path.join("images/player-lu.png"))
+PLAYER_LD = image.load(path.join("images/player-ld.png"))
 
 NEST = image.load(path.join("images/nest.png"))
 

@@ -39,6 +39,12 @@ def main():
 
                 elif event.key == pygame.K_s:
                     player.move("down")
+
+                elif event.key == pygame.K_q:
+                    player.move("left")
+
+                elif event.key == pygame.K_d:
+                    player.move("right")
             
             # Fermeture du jeu
             if event.type == QUIT:
@@ -48,8 +54,8 @@ def main():
         # À chaque tick on fait ce qu'il y a là
         display.fill(BACKGROUND_COLOR)
         world.draw()
-        player.draw()
         nest.draw(world.pos_list[0], 0)
+        player.draw()
 
         pygame.display.update()
         clock.tick(FPS)
