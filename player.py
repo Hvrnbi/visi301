@@ -48,6 +48,9 @@ class Player:
                         self.y -= self.world.gap // 2 + self.world.tile_height // 2
                         self.next_move = "down"
                         self.picture = PLAYER_LD
+                    else:
+                        self.next_move = "down"
+                        self.move("left")
 
                 elif self.next_move == "down":
                     if self.y + self.world.gap // 2 + self.world.tile_height // 2 <= self.world.bottom_border:
@@ -55,6 +58,9 @@ class Player:
                         self.y += self.world.gap // 2 + self.world.tile_height // 2
                         self.next_move = "up"
                         self.picture = PLAYER_LU
+                    else:
+                        self.next_move = "up"
+                        self.move("left")
 
         elif direction == "right":
             if self.x + self.world.gap + 3 * self.world.tile_width // 4 <= self.world.right_border:
@@ -64,6 +70,9 @@ class Player:
                         self.y -= self.world.gap // 2 + self.world.tile_height // 2
                         self.next_move = "down"
                         self.picture = PLAYER_RD
+                    else:
+                        self.next_move = "down"
+                        self.move("right")
 
                 elif self.next_move == "down":
                     if self.y + self.world.gap // 2 + self.world.tile_height // 2 <= self.world.bottom_border:
@@ -71,4 +80,7 @@ class Player:
                         self.y += self.world.gap // 2 + self.world.tile_height // 2
                         self.next_move = "up"
                         self.picture = PLAYER_RU
+                    else:
+                        self.next_move = "up"
+                        self.move("right")
 
