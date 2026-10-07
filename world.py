@@ -26,8 +26,8 @@ class World:
 
 
     def random_tile_type(self) -> str:
-        """Renvoie une chaine de caractère contenant 'green' ou 'seed' avec une probabilité respective de 80% et 20%"""
-        t_type = ["green"] * 4 + ["seed"]
+        """Renvoie une chaine de caractère contenant 'green' ou 'seed' avec une probabilité respective de 90% et 10%"""
+        t_type = ["green"] * 9 + ["seed"]
         return choice(t_type)
 
     
@@ -61,6 +61,7 @@ class World:
         # Le nombre de colonnes doit être impair
         if self.nb_col % 2 != 0:
             self.nb_col += 1
+            print("Il y a déjà un oeuf")
 
         res = []
         x = center[0]
@@ -168,3 +169,12 @@ class World:
             res.append({"x": x, "y": y})
 
         return res
+
+
+    def spawn_new_seed(self):
+        """Place aléatoirement une nouvelle graine dans le monde"""
+        tile = choice(self.tiles_list[1:])
+        while tile.tiletype == "seed":
+            tile = choice(self.tiles_list[1:])
+        tile.tiletype = "seed"
+

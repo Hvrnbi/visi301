@@ -25,7 +25,7 @@ def main():
     player = Player(world.pos_list[1]["x"], world.pos_list[1]["y"], world, display) # On initialise le joueur sur la première tuile en dessous du nid
 
     nest = Nest(0, display)
-
+    
     ### Boucle principale ###
     while True:
 
@@ -35,16 +35,20 @@ def main():
             # On gère les touches
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_z:
-                    player.move("up")
+                    if player.moving:
+                        player.move("up")
 
                 elif event.key == pygame.K_s:
-                    player.move("down")
+                    if player.moving:
+                        player.move("down")
 
                 elif event.key == pygame.K_q:
-                    player.move("left")
+                    if player.moving:
+                        player.move("left")
 
                 elif event.key == pygame.K_d:
-                    player.move("right")
+                    if player.moving:
+                        player.move("right")
             
             # Fermeture du jeu
             if event.type == QUIT:
@@ -56,6 +60,7 @@ def main():
         world.draw()
         nest.draw(world.pos_list[0], 0)
         player.draw()
+        player.action()
 
         pygame.display.update()
         clock.tick(FPS)
