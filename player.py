@@ -1,6 +1,5 @@
 import pygame
 from tiles import *
-from variables import *
 from world import World
 
 
@@ -17,7 +16,6 @@ class Player:
         """Affiche le joueur"""
         image = pygame.transform.scale(PLAYER, (self.world.tile_width, self.world.tile_height))
         self.display.blit(image, (self.x - self.world.tile_width // 2, self.y - self.world.tile_height // 2))  #la valeur ici est arbitraire mais marche. elle est la pour centrer l'affichage du joueur sur une tuile, a changer dans le futur
-    
     
     def move(self, direction: str):
         """Modifie les coordonnées x et y du joueur en fonction de la direction donnée"""

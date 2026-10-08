@@ -4,6 +4,7 @@ from world import World
 from variables import *
 from player import *
 from nest import *
+from farmer import *
 
 
 def main():
@@ -26,6 +27,11 @@ def main():
 
     nest = Nest(0, display)
 
+    random_border_tile_example = world.random_border_tile(world.border_tiles(world.tiles_list))
+    farmer = Farmer(random_border_tile_example.x, random_border_tile_example.y, world, display)
+
+    farmer.draw()
+
     ### Boucle principale ###
     while True:
 
@@ -34,6 +40,14 @@ def main():
 
             # On gère les touches
             if event.type == pygame.KEYDOWN:
+
+                farmer.x, farmer.y = farmer.next_tuile(world)
+                farmer.neighbors_list = farmer.neighbors(farmer.x, farmer.y, farmer.world)
+                print("FARMER FARMER FARMER FARMER FARMER FARMER FARMER FARMER FARMER FARMER FARMER ")
+                print(farmer.x, farmer.y)
+                print("LISTE   LISTE   LISTE   LISTE   LISTE   LISTE   LISTE   LISTE   LISTE   LISTE   LISTE   ")
+                farmer.way_to_follow(world)
+
                 if event.key == pygame.K_z:
                     player.move("up")
 
@@ -50,7 +64,9 @@ def main():
         world.draw()
         player.draw()
         nest.draw(world.pos_list[0], 0)
+        farmer.draw()
 
+            
         pygame.display.update()
         clock.tick(FPS)
 

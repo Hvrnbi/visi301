@@ -20,5 +20,4 @@ class Tile:
             image = pygame.transform.scale(HEXA, (self.width, self.height))
         self.display.blit(image, (self.x - self.width // 2, self.y - self.height // 2))
 
-        
-        
+

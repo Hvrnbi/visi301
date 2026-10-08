@@ -17,6 +17,7 @@ class World:
         self.right_border = max([tile["x"] for tile in self.pos_list])
         self.top_border = min([tile["y"] for tile in self.pos_list])
         self.bottom_border = max([tile["y"] for tile in self.pos_list])
+        self.border_tiles_list = self.border_tiles(self.tiles_list)
 
     
     def draw(self):
@@ -168,3 +169,28 @@ class World:
             res.append({"x": x, "y": y})
 
         return res
+
+    def border_tiles(self, tiles_list: list) -> list:
+        """Renvoie une liste contenant les tuiles des bordures de la map, les tuiles étant les plus éloignées concernant celles d'en haut et d'en bas"""
+        res = []
+        for tuile in tiles_list:
+            if tuile.y == self.top_border or tuile.y == self.bottom_border:
+                res.append(tuile)
+            elif tuile.x == self.left_border or tuile.x == self.right_border:
+                res.append(tuile)                               #######################A EFFACER ####################################
+        return res
+
+    def random_border_tile(self, border_tiles_list: list) -> list:
+        """Renvoie une tuile aléatoire du bord de la map"""
+        res = choice(border_tiles_list)
+        return res
+
+
+
+
+
+
+
+
+
+#           res.append(Tile(self.pos_list[0]["x"], self.pos_list[0]["y"], self.tile_width, self.tile_height, "green", self.display))
