@@ -42,26 +42,41 @@ class Farmer:
         
         return res
 
-    def next_tuile(self, world: World) -> tuple:
-        """Prend les coordonnées du nid et renvoie les coordonnées de la tuile sur laquelle le fermier doit aller pour s'en rapprocher le plus"""
-        res = (0, 0)
-        x_nest = world.pos_list[0]["x"]
-        y_nest = world.pos_list[0]["y"]
+    def next_tuile(self, tuile_dest: Tile, world: World) -> tuple:
+            """Prend la tuile à atteindre et renvoie les coordonnées de la tuile sur laquelle le fermier doit aller pour s'en rapprocher le plus"""
+            res = (0, 0)
+            x_nest = tuile_dest["x"]
+            y_nest = tuile_dest["y"]
+    
+            min = WINDOW_WIDTH ** 2 * 2
+            for tuile in self.neighbors_list:
+                x, y = tuile   
+    
+                x = abs(x - x_nest)
+                y = abs(y - y_nest)
+    
+                hypo = x ** 2 + y ** 2
+    
+                if min > hypo :
+                    min = hypo
+                    res = tuile
+    
+            return(res)
 
-        min = WINDOW_WIDTH ** 2 * 2
-        for tuile in self.neighbors_list:
-            x, y = tuile   
-
-            x = abs(x - x_nest)
-            y = abs(y - y_nest)
-
-            hypo = x ** 2 + y ** 2
-
-            if min > hypo :
-                min = hypo
-                res = tuile
-
-        return(res)
+    def find_current_tile(self):
+            """Renvoie la tuile sur laquelle se trouve le fermier"""
+            found = False
+            i = 0
+            while not found and i < len(self.world.pos_list):
+                if self.world.pos_list[i] == {"x": self.x, "y": self.y}:
+                    found = True
+                else:
+                    i += 1
+    
+            if found:
+                return self.world.tiles_list[i]
+            else:
+                print("Aucune tuile trouvée")
 
 
     def way_to_follow(self, world: World):

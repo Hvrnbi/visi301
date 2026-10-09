@@ -18,7 +18,6 @@ class World:
         self.top_border = min([tile["y"] for tile in self.pos_list])
         self.bottom_border = max([tile["y"] for tile in self.pos_list])
         self.border_tiles_list = self.border_tiles(self.tiles_list)
-
     
     def draw(self):
         """Dessine les tuiles du monde"""
@@ -27,8 +26,8 @@ class World:
 
 
     def random_tile_type(self) -> str:
-        """Renvoie une chaine de caractère contenant 'green' ou 'seed' avec une probabilité respective de 80% et 20%"""
-        t_type = ["green"] * 4 + ["seed"]
+        """Renvoie une chaine de caractère contenant 'green' ou 'seed' avec une probabilité respective de 90% et 10%"""
+        t_type = ["green"] * 9 + ["seed"]
         return choice(t_type)
 
     
@@ -62,6 +61,7 @@ class World:
         # Le nombre de colonnes doit être impair
         if self.nb_col % 2 != 0:
             self.nb_col += 1
+            print("Il y a déjà un oeuf")
 
         res = []
         x = center[0]
@@ -170,6 +170,15 @@ class World:
 
         return res
 
+
+    def spawn_new_seed(self):
+        """Place aléatoirement une nouvelle graine dans le monde"""
+        tile = choice(self.tiles_list[1:])
+        while tile.tiletype == "seed":
+            tile = choice(self.tiles_list[1:])
+        tile.tiletype = "seed"
+
+
     def border_tiles(self, tiles_list: list) -> list:
         """Renvoie une liste contenant les tuiles des bordures de la map, les tuiles étant les plus éloignées concernant celles d'en haut et d'en bas"""
         res = []
@@ -184,13 +193,3 @@ class World:
         """Renvoie une tuile aléatoire du bord de la map"""
         res = choice(border_tiles_list)
         return res
-
-
-
-
-
-
-
-
-
-#           res.append(Tile(self.pos_list[0]["x"], self.pos_list[0]["y"], self.tile_width, self.tile_height, "green", self.display))

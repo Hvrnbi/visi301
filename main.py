@@ -6,7 +6,6 @@ from player import *
 from nest import *
 from farmer import *
 
-
 def main():
     """La fonction pricipale"""
 
@@ -41,18 +40,26 @@ def main():
             # On gère les touches
             if event.type == pygame.KEYDOWN:
 
-                farmer.x, farmer.y = farmer.next_tuile(world)
+                farmer.x, farmer.y = farmer.next_tuile(world.pos_list[0], world)
                 farmer.neighbors_list = farmer.neighbors(farmer.x, farmer.y, farmer.world)
-                print("FARMER FARMER FARMER FARMER FARMER FARMER FARMER FARMER FARMER FARMER FARMER ")
-                print(farmer.x, farmer.y)
-                print("LISTE   LISTE   LISTE   LISTE   LISTE   LISTE   LISTE   LISTE   LISTE   LISTE   LISTE   ")
                 farmer.way_to_follow(world)
+                farmer.find_current_tile()
 
                 if event.key == pygame.K_z:
-                    player.move("up")
+                    if player.moving:
+                        player.move("up")
 
                 elif event.key == pygame.K_s:
-                    player.move("down")
+                    if player.moving:
+                        player.move("down")
+
+                elif event.key == pygame.K_q:
+                    if player.moving:
+                        player.move("left")
+
+                elif event.key == pygame.K_d:
+                    if player.moving:
+                        player.move("right")
             
             # Fermeture du jeu
             if event.type == QUIT:
@@ -62,11 +69,10 @@ def main():
         # À chaque tick on fait ce qu'il y a là
         display.fill(BACKGROUND_COLOR)
         world.draw()
-        player.draw()
         nest.draw(world.pos_list[0], 0)
+        player.draw()
+        player.action()
         farmer.draw()
-
-            
         pygame.display.update()
         clock.tick(FPS)
 

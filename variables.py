@@ -2,8 +2,8 @@ from pygame import image
 from os import path
 
 # taille de la fenêtre
-WINDOW_WIDTH = 1000
-WINDOW_HEIGHT = 700
+WINDOW_WIDTH = 1920
+WINDOW_HEIGHT = 1080
 
 # Nombre d'images par secondes
 FPS = 60
@@ -20,7 +20,11 @@ GAP = 8
 HEXA = image.load(path.join("images/hexa.png"))
 SEED = image.load(path.join("images/seed.png"))
 
-PLAYER = image.load(path.join("images/player.png"))
+PLAYER_RU = image.load(path.join("images/player-ru.png"))
+PLAYER_RD = image.load(path.join("images/player-rd.png"))
+PLAYER_LU = image.load(path.join("images/player-lu.png"))
+PLAYER_LD = image.load(path.join("images/player-ld.png"))
+
 FARMER = image.load(path.join("images/farmer.png"))
 
 NEST = image.load(path.join("images/nest.png"))
