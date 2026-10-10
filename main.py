@@ -39,10 +39,9 @@ def main():
 
             # On gère les touches
             if event.type == pygame.KEYDOWN:
-
-                farmer.x, farmer.y = farmer.next_tuile(world.pos_list[0], world)
+                farmer.change_destination()
+                farmer.x, farmer.y = farmer.next_tuile()
                 farmer.neighbors_list = farmer.neighbors(farmer.x, farmer.y, farmer.world)
-                farmer.way_to_follow(world)
                 farmer.find_current_tile()
 
                 if event.key == pygame.K_z:
@@ -61,7 +60,7 @@ def main():
                     if player.moving:
                         player.move("right")
             
-            # Fermeture du jeu
+            # Fermeture du jeup
             if event.type == QUIT:
                 pygame.quit()
                 sys.exit()

@@ -11,6 +11,8 @@ class Farmer:
         self.y: int = y
         self.world: World = world
         self.neighbors_list: list = self.neighbors(self.x, self.y, self.world)
+        self.origin: Tile = self.find_current_tile()
+        self.destination: Tile = world.pos_list[0]
 
     def draw(self):
         """Affiche le fermier"""
@@ -42,11 +44,11 @@ class Farmer:
         
         return res
 
-    def next_tuile(self, tuile_dest: Tile, world: World) -> tuple:
+    def next_tuile(self) -> tuple:
             """Prend la tuile à atteindre et renvoie les coordonnées de la tuile sur laquelle le fermier doit aller pour s'en rapprocher le plus"""
             res = (0, 0)
-            x_nest = tuile_dest["x"]
-            y_nest = tuile_dest["y"]
+            x_nest = self.destination["x"]
+            y_nest = self.destination["y"]
     
             min = WINDOW_WIDTH ** 2 * 2
             for tuile in self.neighbors_list:
@@ -60,26 +62,45 @@ class Farmer:
                 if min > hypo :
                     min = hypo
                     res = tuile
-    
+
             return(res)
 
     def find_current_tile(self):
             """Renvoie la tuile sur laquelle se trouve le fermier"""
             found = False
             i = 0
-            while not found and i < len(self.world.pos_list):
-                if self.world.pos_list[i] == {"x": self.x, "y": self.y}:
+            for tile in self.world.pos_list:
+                if  SPACE > abs(tile["x"] - self.x) and SPACE > abs(tile["y"] - self.y):
                     found = True
-                else:
-                    i += 1
-    
-            if found:
-                return self.world.tiles_list[i]
+
+                if found:
+                    return tile
             else:
                 print("Aucune tuile trouvée")
 
+    def is_at_nest(self) -> bool:
+        """Renvoie True si le fermier est au nidn False sinon"""
+        res = False
+        if self.find_current_tile() == self.world.pos_list[0]:
+            res = True
+        return res
 
-    def way_to_follow(self, world: World):
+    def is_at_origin(self) -> bool:
+            """Renvoie True si le fermier est au nidn False sinon"""
+            res = False
+            if self.find_current_tile() == self.origin:
+                res = True
+            return res
+
+    def change_destination(self) -> None:
+        """Change la tuile destination du fermier lorsqu'il touche le nid"""
+        if self.is_at_nest() :
+            self.destination = self.origin
+        elif self.is_at_origin():
+            self.destination = self.world.pos_list[0]
+        
+
+    def way_to_follow(self):
         """Renvoie les coordonées par lesquelles va passer le fermier sous forme d'une liste"""
         return None
         

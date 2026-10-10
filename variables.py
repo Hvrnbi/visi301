@@ -3,7 +3,7 @@ from os import path
 
 # taille de la fenêtre
 WINDOW_WIDTH = 1920
-WINDOW_HEIGHT = 1080
+WINDOW_HEIGHT =1080
 
 # Nombre d'images par secondes
 FPS = 60
@@ -34,3 +34,6 @@ ORIGIN = 0
 
 # couleurs
 BACKGROUND_COLOR = (24, 40, 69)
+
+# écart toléré pour trouvé une tuile (en px)
+SPACE = 30
