@@ -19,15 +19,22 @@ GAP = 8
 # images
 HEXA = image.load(path.join("images/hexa.png"))
 SEED = image.load(path.join("images/seed.png"))
+NEST = image.load(path.join("images/nest.png"))
+EGG1 = image.load(path.join("images/egg1.png"))
+EGG2 = image.load(path.join("images/egg2.png"))
+EGG3 = image.load(path.join("images/egg3.png"))
+EGG4 = image.load(path.join("images/egg4.png"))
+EGG5 = image.load(path.join("images/egg5.png"))
+
 
 PLAYER_RU = image.load(path.join("images/player-ru.png"))
 PLAYER_RD = image.load(path.join("images/player-rd.png"))
 PLAYER_LU = image.load(path.join("images/player-lu.png"))
 PLAYER_LD = image.load(path.join("images/player-ld.png"))
 
-FARMER = image.load(path.join("images/farmer.png"))
+PIOU_PIOU = image.load(path.join("images/piou-piou.png"))
 
-NEST = image.load(path.join("images/nest.png"))
+FARMER = image.load(path.join("images/farmer.png"))
 
 # tuile de base pour le personnage
 ORIGIN = 0

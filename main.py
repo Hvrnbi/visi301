@@ -3,7 +3,6 @@ from pygame.locals import * # Import des constantes de pygame
 from world import World
 from variables import *
 from player import *
-from nest import *
 from farmer import *
 
 def main():
@@ -23,8 +22,6 @@ def main():
     world = World(display, NB_COL, NB_ROW, GAP)
 
     player = Player(world.pos_list[1]["x"], world.pos_list[1]["y"], world, display) # On initialise le joueur sur la première tuile en dessous du nid
-
-    nest = Nest(0, display)
 
     random_border_tile_example = world.random_border_tile(world.border_tiles(world.tiles_list))
     farmer = Farmer(random_border_tile_example.x, random_border_tile_example.y, world, display)
@@ -68,7 +65,6 @@ def main():
         # À chaque tick on fait ce qu'il y a là
         display.fill(BACKGROUND_COLOR)
         world.draw()
-        nest.draw(world.pos_list[0], 0)
         player.draw()
         player.action()
         farmer.draw()
