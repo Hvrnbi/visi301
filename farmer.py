@@ -2,24 +2,52 @@ import pygame
 from tiles import *
 from variables import *
 from world import World
-from player import *
+
+def create_farmer(world, display):
+    """Crée un fermier sur une tuile au bord de la map"""
+    random_border_tile_example = world.random_border_tile(world.border_tiles(world.tiles_list))
+    farmer = Farmer(random_border_tile_example.x, random_border_tile_example.y, world, display)
+    return farmer
+
+def farmers_control(world, player, display):
+    """Permet de controler l'apparition des fermiers, et de moduler leur nombre, ainsi que le moment ou ils apparraissent.
+       On peut maintenant créer des vagues de fermiers en fonction du nombre de poussins"""
+    if player.piou_piou_number in [0, 1, 2]:
+        if world.egg == 4:
+            world.farmers.append(create_farmer(world, display))
+    elif player.piou_piou_number in [3, 4, 5]:
+        if world.egg == 1:
+            world.farmers.append(create_farmer(world, display))
+    elif player.piou_piou_number > 5:
+        if world.egg == 1:
+            world.farmers.append(create_farmer(world, display))
+        if world.egg == 4:
+            world.farmers.append(create_farmer(world, display))
+        if world.egg == 9:
+            world.farmers.append(create_farmer(world, display))
+
+
 
 class Farmer:
-    def __init__(self, x: int, y: int, world: World, player: Player, display: pygame.display):
+    def __init__(self, x: int, y: int, world: World, display: pygame.display):
         """Un fermier, avec ses coordonnées (x, y)"""
         self.display = display
         self.x: int = x
         self.y: int = y
         self.world: World = world
-        self.player = player
         self.neighbors_list: list = self.neighbors(self.x, self.y, self.world)
         self.origin: Tile = self.find_current_tile()
         self.destination: Tile = world.pos_list[0]
+        self.goal_done: bool = self.is_at_nest()
+        self.alive: bool = True
+        self.tuile_traversees = 0
 
     def draw(self):
         """Affiche le fermier"""
-        image = pygame.transform.scale(FARMER, (self.world.tile_width, self.world.tile_height))
-        self.display.blit(image, (self.x - self.world.tile_width // 2, self.y - self.world.tile_height // 2))  
+        if self.alive :
+            image = pygame.transform.scale(FARMER, (self.world.tile_width, self.world.tile_height))
+            self.display.blit(image, (self.x - self.world.tile_width // 2, self.y - self.world.tile_height // 2))  
+            self.tuile_traversees += 1
 
 
 
@@ -46,7 +74,7 @@ class Farmer:
         
         return res
 
-    def next_tile(self) -> tuple:
+    def next_tuile(self) -> tuple:
             """Prend la tuile à atteindre et renvoie les coordonnées de la tuile sur laquelle le fermier doit aller pour s'en rapprocher le plus"""
             res = (0, 0)
             x_nest = self.destination["x"]
@@ -81,10 +109,11 @@ class Farmer:
                 print("Aucune tuile trouvée")
 
     def is_at_nest(self) -> bool:
-        """Renvoie True si le fermier est au nidn False sinon"""
+        """Renvoie True si le fermier est au nid False sinon. Met automatiquement a jour "self.goal_done" """
         res = False
         if self.find_current_tile() == self.world.pos_list[0]:
             res = True
+            self.goal_done = True
         return res
 
     def is_at_origin(self) -> bool:
@@ -99,5 +128,22 @@ class Farmer:
         if self.is_at_nest() :
             self.destination = self.origin
         elif self.is_at_origin():
-            self.destination = {"x": self.x * 2, "y": self.y * 2}
+            self.destination = self.world.pos_list[0]
         
+
+    def way_to_follow(self) -> None:
+        """Renvoie les coordonées par lesquelles va passer le fermier sous forme d'une liste"""
+        return None
+
+    def disappear(self) -> None:
+        """Fais disparaitre le fermier si il a atteint le nid et si il est revenu à son point de départ"""
+        if self.is_at_origin() and self.goal_done :
+            self.alive = False
+        return None
+
+    def action(self) -> None:
+        self.change_destination()
+        self.x, self.y = self.next_tuile()
+        self.neighbors_list = self.neighbors(self.x, self.y, self.world)
+        self.find_current_tile()
+        self.disappear()

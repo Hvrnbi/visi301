@@ -3,8 +3,10 @@ from pygame.locals import * # Import des constantes de pygame
 from world import World
 from variables import *
 from player import *
-from nest import *
 from farmer import *
+
+
+# Fonctions
 
 def main():
     """La fonction pricipale"""
@@ -23,13 +25,7 @@ def main():
     world = World(display, NB_COL, NB_ROW, GAP)
 
     player = Player(world.pos_list[1]["x"], world.pos_list[1]["y"], world, display) # On initialise le joueur sur la première tuile en dessous du nid
-
-    nest = Nest(0, display)
-
-    random_border_tile_example = world.random_border_tile(world.border_tiles(world.tiles_list))
-    farmer = Farmer(random_border_tile_example.x, random_border_tile_example.y, world, player, display)
-
-    farmer.draw()
+    
 
     ### Boucle principale ###
     while True:
@@ -39,10 +35,13 @@ def main():
 
             # On gère les touches
             if event.type == pygame.KEYDOWN:
-                farmer.change_destination()
-                farmer.x, farmer.y = farmer.next_tile()
-                farmer.neighbors_list = farmer.neighbors(farmer.x, farmer.y, farmer.world)
-                farmer.find_current_tile()
+
+                # On gère la création et les actions des fermiers
+
+                farmers_control(world, player, display)
+
+                for farmer in world.farmers:
+                    farmer.action()
 
                 if event.key == pygame.K_z:
                     if player.moving:
@@ -68,10 +67,11 @@ def main():
         # À chaque tick on fait ce qu'il y a là
         display.fill(BACKGROUND_COLOR)
         world.draw()
-        nest.draw(world.pos_list[0], 0)
         player.draw()
         player.action()
-        farmer.draw()
+        for farmer in world.farmers:
+            farmer.draw()
+
         pygame.display.update()
         clock.tick(FPS)
 

@@ -17,8 +17,10 @@ class World:
         self.right_border = max([tile["x"] for tile in self.pos_list])
         self.top_border = min([tile["y"] for tile in self.pos_list])
         self.bottom_border = max([tile["y"] for tile in self.pos_list])
+        self.egg = 0
         self.border_tiles_list = self.border_tiles(self.tiles_list)
-    
+        self.farmers = []
+
     def draw(self):
         """Dessine les tuiles du monde"""
         for tile in self.tiles_list:
@@ -27,7 +29,7 @@ class World:
 
     def random_tile_type(self) -> str:
         """Renvoie une chaine de caractère contenant 'green' ou 'seed' avec une probabilité respective de 90% et 10%"""
-        t_type = ["green"] * 9 + ["seed"]
+        t_type = ["green"] * 15 + ["seed"]
         return choice(t_type)
 
     
@@ -35,7 +37,7 @@ class World:
         """Renvoie une liste avec toutes les tuiles du monde, générées en partie aléatoirement"""
         res = []
         # Tuile centrale
-        res.append(Tile(self.pos_list[0]["x"], self.pos_list[0]["y"], self.tile_width, self.tile_height, "green", self.display))
+        res.append(Tile(self.pos_list[0]["x"], self.pos_list[0]["y"], self.tile_width, self.tile_height, "nest", self.display))
         # Toutes les autres
         for pos in self.pos_list[1:]:
             res.append(Tile(pos["x"], pos["y"], self.tile_width, self.tile_height, self.random_tile_type(), self.display))
@@ -177,6 +179,12 @@ class World:
         while tile.tiletype == "seed":
             tile = choice(self.tiles_list[1:])
         tile.tiletype = "seed"
+
+    
+    def egg_life(self):
+        """Gère l'oeuf"""
+        if self.egg == 0:
+            self.egg = 1
 
 
     def border_tiles(self, tiles_list: list) -> list:
