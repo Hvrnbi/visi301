@@ -19,6 +19,8 @@ GAP = 8
 # images
 HEXA = image.load(path.join("images/hexa.png"))
 SEED = image.load(path.join("images/seed.png"))
+HEXA_PATH = image.load(path.join("images/hexa_path.png"))
+SEED_PATH = image.load(path.join("images/seed_path.png"))
 
 PLAYER_RU = image.load(path.join("images/player-ru.png"))
 PLAYER_RD = image.load(path.join("images/player-rd.png"))

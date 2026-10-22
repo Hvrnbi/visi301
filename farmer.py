@@ -2,14 +2,16 @@ import pygame
 from tiles import *
 from variables import *
 from world import World
+from player import *
 
 class Farmer:
-    def __init__(self, x: int, y: int, world: World, display: pygame.display):
+    def __init__(self, x: int, y: int, world: World, player: Player, display: pygame.display):
         """Un fermier, avec ses coordonnées (x, y)"""
         self.display = display
         self.x: int = x
         self.y: int = y
         self.world: World = world
+        self.player = player
         self.neighbors_list: list = self.neighbors(self.x, self.y, self.world)
         self.origin: Tile = self.find_current_tile()
         self.destination: Tile = world.pos_list[0]
@@ -44,7 +46,7 @@ class Farmer:
         
         return res
 
-    def next_tuile(self) -> tuple:
+    def next_tile(self) -> tuple:
             """Prend la tuile à atteindre et renvoie les coordonnées de la tuile sur laquelle le fermier doit aller pour s'en rapprocher le plus"""
             res = (0, 0)
             x_nest = self.destination["x"]
@@ -97,10 +99,5 @@ class Farmer:
         if self.is_at_nest() :
             self.destination = self.origin
         elif self.is_at_origin():
-            self.destination = self.world.pos_list[0]
-        
-
-    def way_to_follow(self):
-        """Renvoie les coordonées par lesquelles va passer le fermier sous forme d'une liste"""
-        return None
+            self.destination = {"x": self.x * 2, "y": self.y * 2}
         

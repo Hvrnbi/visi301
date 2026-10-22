@@ -27,7 +27,7 @@ def main():
     nest = Nest(0, display)
 
     random_border_tile_example = world.random_border_tile(world.border_tiles(world.tiles_list))
-    farmer = Farmer(random_border_tile_example.x, random_border_tile_example.y, world, display)
+    farmer = Farmer(random_border_tile_example.x, random_border_tile_example.y, world, player, display)
 
     farmer.draw()
 
@@ -40,7 +40,7 @@ def main():
             # On gère les touches
             if event.type == pygame.KEYDOWN:
                 farmer.change_destination()
-                farmer.x, farmer.y = farmer.next_tuile()
+                farmer.x, farmer.y = farmer.next_tile()
                 farmer.neighbors_list = farmer.neighbors(farmer.x, farmer.y, farmer.world)
                 farmer.find_current_tile()
 

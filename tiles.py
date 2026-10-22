@@ -16,9 +16,19 @@ class Tile:
         """Affiche la tuile"""
         if self.tiletype == "seed" :
             image = pygame.transform.scale(SEED, (self.width, self.height))
-        else :
+        elif self.tiletype == "green" :
             image = pygame.transform.scale(HEXA, (self.width, self.height))
+        elif self.tiletype == "green_path" :
+            image = pygame.transform.scale(HEXA_PATH, (self.width, self.height))
+        elif self.tiletype == "seed_path" : 
+            image = pygame.transform.scale(SEED_PATH, (self.width, self.height))
         self.display.blit(image, (self.x - self.width // 2, self.y - self.height // 2))
 
+    def to_path(self):
+        """Change le tiletype de la tuile si celle ci est sur le chemin du fermier"""
+        if self.tiletype == "green":
+            self.tiletype = "green_path"
+        elif self.tiletype == "seed":
+            self.tiletype = "seed_path"
         
         
