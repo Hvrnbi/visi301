@@ -147,7 +147,7 @@ class Player:
         found = False
         i = 0
         while not found and i < len(self.world.pos_list):
-            if self.world.pos_list[i] == {"x": self.x, "y": self.y}:
+            if self.x - 8 < self.world.pos_list[i]["x"] < self.x + 8 and self.y - 8 < self.world.pos_list[i]["y"] < self.y + 8 :
                 found = True
             else:
                 i += 1

@@ -2,11 +2,12 @@ import pygame
 from tiles import *
 from variables import *
 from world import World
+from player import Player
 
-def create_farmer(world, display):
+def create_farmer(world, display, player):
     """Crée un fermier sur une tuile au bord de la map"""
     random_border_tile_example = world.random_border_tile(world.border_tiles(world.tiles_list))
-    farmer = Farmer(random_border_tile_example.x, random_border_tile_example.y, world, display)
+    farmer = Farmer(random_border_tile_example.x, random_border_tile_example.y, world, display, player)
     return farmer
 
 def farmers_control(world, player, display):
@@ -14,33 +15,34 @@ def farmers_control(world, player, display):
        On peut maintenant créer des vagues de fermiers en fonction du nombre de poussins"""
     if player.piou_piou_number in [0, 1, 2]:
         if world.egg == 4:
-            world.farmers.append(create_farmer(world, display))
+            world.farmers.append(create_farmer(world, display, player))
     elif player.piou_piou_number in [3, 4, 5]:
-        if world.egg == 1:
-            world.farmers.append(create_farmer(world, display))
+        if world.egg == 2:
+            world.farmers.append(create_farmer(world, display, player))
     elif player.piou_piou_number > 5:
-        if world.egg == 1:
-            world.farmers.append(create_farmer(world, display))
+        if world.egg == 2:
+            world.farmers.append(create_farmer(world, display, player))
         if world.egg == 4:
-            world.farmers.append(create_farmer(world, display))
+            world.farmers.append(create_farmer(world, display, player))
         if world.egg == 9:
-            world.farmers.append(create_farmer(world, display))
+            world.farmers.append(create_farmer(world, display, player))
 
 
 
 class Farmer:
-    def __init__(self, x: int, y: int, world: World, display: pygame.display):
+    def __init__(self, x: int, y: int, world: World, display: pygame.display, player: Player):
         """Un fermier, avec ses coordonnées (x, y)"""
         self.display = display
         self.x: int = x
         self.y: int = y
         self.world: World = world
         self.neighbors_list: list = self.neighbors(self.x, self.y, self.world)
-        self.origin: Tile = self.find_current_tile()
+        self.origin: Tile = {"x": self.find_current_tile().x, "y": self.find_current_tile().y}
         self.destination: Tile = world.pos_list[0]
         self.goal_done: bool = self.is_at_nest()
         self.alive: bool = True
         self.tuile_traversees = 0
+        self.player = player
 
     def draw(self):
         """Affiche le fermier"""
@@ -96,30 +98,34 @@ class Farmer:
             return(res)
 
     def find_current_tile(self):
-            """Renvoie la tuile sur laquelle se trouve le fermier"""
-            found = False
-            i = 0
-            for tile in self.world.pos_list:
-                if  SPACE > abs(tile["x"] - self.x) and SPACE > abs(tile["y"] - self.y):
-                    found = True
-
-                if found:
-                    return tile
+        """Renvoie la tuile sur laquelle se trouve le fermier"""
+        found = False
+        i = 0
+        while not found and i < len(self.world.pos_list):
+            if self.x - 8 < self.world.pos_list[i]["x"] < self.x + 8 and self.y - 8 < self.world.pos_list[i]["y"] < self.y + 8 :
+                found = True
             else:
-                print("Aucune tuile trouvée")
+                i += 1
+
+        if found:
+            return self.world.tiles_list[i]
+        else:
+            print("Aucune tuile trouvée")
 
     def is_at_nest(self) -> bool:
         """Renvoie True si le fermier est au nid False sinon. Met automatiquement a jour "self.goal_done" """
         res = False
-        if self.find_current_tile() == self.world.pos_list[0]:
+        if self.find_current_tile() == self.world.tiles_list[0]:
             res = True
             self.goal_done = True
+            self.world.egg = 0
+            self.world.tiles_list[0].tiletype = "nest"
         return res
 
     def is_at_origin(self) -> bool:
             """Renvoie True si le fermier est au nidn False sinon"""
             res = False
-            if self.find_current_tile() == self.origin:
+            if {"x": self.find_current_tile().x, "y":self.find_current_tile().y} == self.origin:
                 res = True
             return res
 
@@ -142,8 +148,21 @@ class Farmer:
         return None
 
     def action(self) -> None:
-        self.change_destination()
-        self.x, self.y = self.next_tuile()
-        self.neighbors_list = self.neighbors(self.x, self.y, self.world)
-        self.find_current_tile()
-        self.disappear()
+        if self.alive:
+            self.change_destination()
+            self.x, self.y = self.next_tuile()
+            self.neighbors_list = self.neighbors(self.x, self.y, self.world)
+            self.find_current_tile()
+            self.disappear()
+
+            if self.collision():
+                self.destination = self.origin
+                self.goal_done = True
+
+    def collision(self) -> bool:
+        """Renvoie True si le fermier va se faire picorer les jambes, False sinon"""            
+        if self.player.piou_piou_number == 0:
+            return (self.player.x, self.player.y) in [(self.x, self.y), self.next_tuile()]
+        else:
+            return (self.x, self.y) in self.player.pos_history[-(self.player.piou_piou_number + 1):] or self.next_tuile() in self.player.pos_history[-(self.player.piou_piou_number + 1):]
+    

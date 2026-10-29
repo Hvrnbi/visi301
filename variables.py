@@ -3,7 +3,7 @@ from os import path
 
 # taille de la fenêtre
 WINDOW_WIDTH = 1920
-WINDOW_HEIGHT =1080
+WINDOW_HEIGHT = 1080
 
 # Nombre d'images par secondes
 FPS = 60
