@@ -36,13 +36,6 @@ def main():
             # On gère les touches
             if event.type == pygame.KEYDOWN:
 
-                # On gère la création et les actions des fermiers
-
-                farmers_control(world, player, display)
-
-                for farmer in world.farmers:
-                    farmer.action()
-
                 if event.key == pygame.K_z:
                     if player.moving:
                         player.move("up")
@@ -58,6 +51,13 @@ def main():
                 elif event.key == pygame.K_d:
                     if player.moving:
                         player.move("right")
+
+                
+                # On gère la création et les actions des fermiers
+                farmers_control(world, player, display)
+
+                for farmer in world.farmers:
+                    farmer.action()
             
             # Fermeture du jeup
             if event.type == QUIT:
@@ -67,6 +67,9 @@ def main():
         # À chaque tick on fait ce qu'il y a là
         display.fill(BACKGROUND_COLOR)
         world.draw()
+        for farmer in world.farmers:
+            farmer.draw_path()
+            
         player.draw()
         player.action()
         for farmer in world.farmers:
