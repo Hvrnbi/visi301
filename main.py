@@ -69,7 +69,6 @@ def main():
         world.draw()
         for farmer in world.farmers:
             farmer.draw_path()
-            
         player.draw()
         player.action()
         for farmer in world.farmers:

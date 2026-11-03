@@ -213,11 +213,8 @@ class Farmer:
 
         way = self.path_to(self.x, self.y, self.destination)
         if way:
-            x, y = way[-1]
-        else:
-            x, y = self.x, self.y
-        #comming_back = self.path_to(x, y, self.origin)             # on peut ajouter ces lignes pour que le chemin du retour soit également affiché
-        return way #+ comming_back
+            way.pop(-1)
+        return way
 
         
     def draw_path(self):
