@@ -215,7 +215,6 @@ class Farmer:
         if way:
             way.pop(-1)
         return way
-
         
     def draw_path(self):
         """Va afficher le chemin d'un fermier"""

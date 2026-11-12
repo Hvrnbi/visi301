@@ -36,23 +36,53 @@ def main():
             # On gère les touches
             if event.type == pygame.KEYDOWN:
 
-                if event.key == pygame.K_z:
+                if event.key == pygame.K_z or event.key == pygame.K_UP:
                     if player.moving:
                         player.move("up")
 
-                elif event.key == pygame.K_s:
+                elif event.key == pygame.K_s or event.key == pygame.K_DOWN:
                     if player.moving:
                         player.move("down")
 
-                elif event.key == pygame.K_q:
+                elif event.key == pygame.K_q or event.key == pygame.K_LEFT:
                     if player.moving:
                         player.move("left")
 
-                elif event.key == pygame.K_d:
+                elif event.key == pygame.K_d or event.key == pygame.K_RIGHT:
                     if player.moving:
                         player.move("right")
 
                 
+            else :
+                if event.type == pygame.JOYAXISMOTION:
+                    if abs(event.value) > 0.2:
+                        msg = f"Axes {event.axis} : {event.value}"
+                        print(msg)
+
+                        if event.axis == 1:
+                            if event.value < 0:
+                                if player.moving:
+                                    player.move("up")
+                                print("haut")
+                            else:
+                                if player.moving:
+                                    player.move("down")
+                                print("bas")
+                        else:
+                            if event.value < 0:
+                                if player.moving:
+                                    player.move("left")
+                                print("gauche")
+                            else:
+                                if player.moving:
+                                    player.move("right")
+                                print("droite")
+
+                elif event.type == pygame.JOYBUTTONDOWN:
+                    msg = f"Bouton {event.button}"
+                    print(msg)
+ 
+
                 # On gère la création et les actions des fermiers
                 farmers_control(world, player, display)
 
